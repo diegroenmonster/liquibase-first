@@ -1,0 +1,31 @@
+{
+    "options": {
+        "namespace": "",
+        "languages": "ALL",
+        "version": "0.0.1",
+        "tasks": "ALL"
+    },
+    "prebuilds": {
+        "roles": {}
+    },
+    "postbuilds": {
+    },
+    "csharp":
+    {
+        "options": {
+          "array_replace": "List<$1>",
+          "format": {
+              "namespace": "camel|noscore",
+              "class": "camel|noscore",
+              "property": "camel|noscore",
+              "tabs": 4
+          }
+        },
+        "sqlfile": {}, 
+        "model":{}
+    },
+    "java":
+    {
+        
+    }
+}

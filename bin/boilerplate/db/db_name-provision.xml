@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet id="1" author="{{author}}">
+        <tagDatabase tag="initial" />
+    </changeSet>
+    <changeSet id="2" author="{{author}}">
+        <preConditions onFail="CONTINUE">
+            <sqlCheck expectedResult="0">select count(*) from pg_roles WHERE rolname='{{db_name}}_admin'</sqlCheck>
+        </preConditions>
+        <comment>Create the database administrator</comment>
+        <sql>
+            CREATE ROLE {{db_name}}_admin LOGIN
+            PASSWORD '${dba_passwd}' VALID UNTIL 'infinity'
+            SUPERUSER INHERIT CREATEDB CREATEROLE REPLICATION;
+            COMMENT ON ROLE {{db_name}}_admin IS '{{db_name}} Database Administrator';
+        </sql>
+    </changeSet>
+    <changeSet id="3" author="{{author}}" runInTransaction="false">
+        <preConditions onFail="CONTINUE">
+            <sqlCheck expectedResult="0">select count(*) from pg_tablespace where spcname  = '{{db_name}}_stats';;</sqlCheck>
+        </preConditions>
+        <comment>Create stats table space for the db {{db_name}}</comment>
+        <sql>
+            CREATE TABLESPACE {{db_name}}_stats LOCATION '${TSlocation}/stats';
+        </sql>
+    </changeSet>
+    <changeSet id="4" author="{{author}}" runInTransaction="false">
+        <preConditions onFail="CONTINUE">
+            <sqlCheck expectedResult="0">select count(*) from pg_tablespace where spcname  = '{{db_name}}_stats';;</sqlCheck>
+        </preConditions>
+        <comment>Create data table space for the db {{db_name}}</comment>
+        <sql>
+            CREATE TABLESPACE {{db_name}}_stats LOCATION '${TSlocation}/data';
+        </sql>
+    </changeSet>
+    <changeSet id="5" author="{{author}}" runInTransaction="false">
+        <preConditions onFail="CONTINUE">
+            <sqlCheck expectedResult="0">select count(*) from pg_catalog.pg_database where datname = '{{db_name}}';</sqlCheck>
+        </preConditions>
+        <comment>Create the database {{db_name}}</comment>
+        <sql>
+            CREATE DATABASE {{db_name}} WITH OWNER {{db_name}}_admin TABLESPACE {{db_name}}_stats;
+        </sql>
+    </changeSet>
+    
+</databaseChangeLog>

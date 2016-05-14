@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <databaseChangeLog xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.liquibase.org/xml/ns/dbchangelog">
+        <!-- Initialise DB -->
+        <include relativeToChangelogFile="true" file="db/{{schema_name}}-init.xml" />
+        
+        <!-- DB Models/Tables -->
+        <include relativeToChangelogFile="true" file="Categories/Category.db.yml" />
+        <include relativeToChangelogFile="true" file="Classifications/Classification.db.yml" />
+        <include relativeToChangelogFile="true" file="Examples/Example.db.yml" />
+        
+
+        <!-- Intialise Model Data -->
+        <include relativeToChangelogFile="true" file="Categories/Category.init.xml" />
+        <include relativeToChangelogFile="true" file="Classifications/Classification.init.xml" />
+        <include relativeToChangelogFile="true" file="Examples/Example.init.xml" />
+        
+        
+        <!-- Set Tags To Latest Version -->
+        <include relativeToChangelogFile="true" file="db/{{schema_name}}-tags.yml" />
+    </databaseChangeLog>

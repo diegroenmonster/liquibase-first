@@ -1,0 +1,8 @@
+databaseChangeLog:
+            
+    - changeSet:
+        id: 1
+        author: {{author}}
+        changes:
+            - tagDatabase:
+                tag: 0.0.1

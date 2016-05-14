@@ -1,0 +1,98 @@
+databaseChangeLog:
+            
+    - changeSet:
+        id: 1
+        author: {{author}}
+        changes:
+            - createTable:
+                tableName: example
+                schemaName: {{schema_name}}
+                columns:
+                    - column:
+                        name: id
+                        type: serial
+                        autoIncrement: true
+                        constraints: 
+                            primaryKey: true
+                            nullable: false
+                    - column:
+                        name: name
+                        type: text
+                        constraints:
+                            nullable: false
+                    - column:
+                        name: description
+                        type: text
+                        constraints:
+                            nullable: false
+                    - column:
+                        name: category_id
+                        type: integer
+                        constraints:
+                            nullable: false
+
+            - addForeignKeyConstraint:
+                  baseColumnNames: category_id
+                  baseTableName: example
+                  baseTableSchemaName: {{schema_name}}
+                  constraintName: fk_example_category
+                  onDelete: RESTRICT
+                  onUpdate: RESTRICT
+                  referencedColumnNames: id
+                  referencedTableName: category
+                  referencedTableSchemaName: {{schema_name}}
+                  
+        rollback:
+            - dropForeignKeyConstraint:
+                baseTableName: example
+                baseTableSchemaName: {{schema_name}}
+                constraintName: fk_example_category
+            - dropTable:
+                tableName: example
+                schemaName: {{schema_name}}
+                
+       
+    - changeSet:
+        id: 2
+        author: {{author}}
+        changes:
+            - addColumn:
+                tableName: example
+                schemaName: {{schema_name}}
+                columns:
+                    - column:
+                        name: classification_id
+                        type: int
+                    - column:
+                        name: bags_id
+                        type: int
+
+            - addForeignKeyConstraint:
+                baseColumnNames: classification_id
+                baseTableName: example
+                baseTableSchemaName: {{schema_name}}
+                constraintName: fk_example_classification
+                onDelete: RESTRICT
+                onUpdate: RESTRICT
+                referencedColumnNames: id
+                referencedTableName: classification
+                referencedTableSchemaName: {{schema_name}}
+            - update:
+                tableName: example
+                schemaName: {{schema_name}}
+                columns:
+                - column:
+                    name: classification_id
+                    value: 1
+                where: classification_id is null 
+            - addNotNullConstraint:
+                columnDataType: int
+                columnName: classification_id
+                defaultNullValue: 1
+                schemaName: {{schema_name}}
+                tableName: example   
+        rollback:
+            - dropForeignKeyConstraint:
+                baseTableName: example
+                baseTableSchemaName: {{schema_name}}
+                constraintName: fk_example_classification               

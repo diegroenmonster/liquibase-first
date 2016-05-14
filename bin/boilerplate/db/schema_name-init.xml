@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet id="1" author="{{author}}">
+        <tagDatabase tag="initial" />
+    </changeSet>
+    <changeSet id="2" author="{{author}}">
+        <preConditions onFail="CONTINUE">
+            <sqlCheck expectedResult="0">select count(*) from pg_roles WHERE rolname='{{role_name}}'</sqlCheck>
+        </preConditions>
+        <comment>Create the {{role_name}}</comment>
+        <sql>
+            CREATE ROLE {{role_name}} LOGIN PASSWORD '${dba_passwd}' 
+            VALID UNTIL 'infinity' NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE;  
+            COMMENT ON ROLE {{role_name}} IS '{{role_name}} User';
+        </sql>
+        <rollback>
+            <sql>
+                DROP ROLE {{role_name}};
+            </sql>
+        </rollback>
+    </changeSet>
+    <changeSet id="3" author="{{author}}">
+        <comment>Create the {{schema_name}}</comment>
+        <sql>
+            CREATE SCHEMA {{schema_name}}; ALTER SCHEMA {{schema_name}} OWNER TO {{db_name}}_admin; COMMENT ON SCHEMA {{schema_name}} IS 'Schema for {{schema_name}}'; GRANT USAGE ON SCHEMA {{schema_name}} TO {{role_name}};
+        </sql>
+        <rollback>
+            <sql>
+                DROP SCHEMA {{schema_name}};
+            </sql>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

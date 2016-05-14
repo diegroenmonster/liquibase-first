@@ -1,0 +1,54 @@
+app-id: 1
+roles:
+    - role:     
+        label:  application_admin
+        desc:   Application administrator
+        functions:
+            - function: 
+                label:  user_administration
+                rights: create|read|write|execute|authorise
+            - function: 
+                label:  app_configuration
+                rights: create|read|write|execute|authorise
+                
+    - role:     
+        label:  application_user
+        desc:   Application user
+        functions:
+            - function: 
+                label:  profile_configuration
+                rights: create|read|write
+
+functions:
+    - function: 
+        label:  user_administration
+        desc:   Password resets, de-activate user accounts and adding new user accounts
+        
+    - function: 
+        label:  app_configuration
+        desc:   Change settings on the application for all users
+        
+    - function: 
+        label:  profile_configuration
+        desc:   Change settings on the user's own profile
+        
+rights:
+    - right:    
+        label:  create
+        desc:   Create objects within the specified function
+        
+    - right:    
+        label:  read
+        desc:   Access to objects withing the specified function
+        
+    - right:    
+        label:  write
+        desc:   Make changes to existing objects withing the specified function
+        
+    - right:    
+        label:  execute
+        desc:   Run tasks within the specified function
+    
+    - right:    
+        label:  authorise
+        desc:   Authorise tasks within the specified function

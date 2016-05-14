@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet id="1" author="paul">
+        <sql>
+            INSERT INTO {{schema_name}}.category (id, name, description)
+            Values 
+            (1,'TESTER','Quality assurance'),
+            (2,'BUSISNESS ANALYST', 'Requirement gathering and IT needs analysis'),
+            (3,'SOFTWARE DEVELOPER','One of those guys'),
+            (4,'SOFTWARE ENGINEER','Configuration management'),
+            (5,'PROJECT MANAGER','When time and quality meets price')
+        </sql>
+        <rollback>
+            <sql>
+                TRUNCATE TABLE {{schema_name}}.category CASCADE;
+            </sql>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

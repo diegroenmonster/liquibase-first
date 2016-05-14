@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet id="1" author="paul">
+        <sql>
+        INSERT INTO auth.right (app_id, label, description, creation_timestamp, created_by, active)
+        SELECT Distinct x.appId, x.right, x.right_desc, current_timestamp, '{{author}}', true
+        FROM
+        (
+        SELECT (fr->> 'appId')::int as appId,  fr->> 'right' as right, fr->> 'right_desc' as right_desc
+        FROM json_array_elements(
+        '{{fr_serialised}}') as fr
+        ) x 
+        LEFT JOIN auth.right r ON r.label = x.right and r.app_id = x.appId 
+        where r.id is null;
+
+        INSERT INTO auth.function (app_id, label, description, creation_timestamp, created_by, active)
+        select Distinct x.appId, x.func, x.func_desc, current_timestamp, '{{author}}', true
+        FROM
+        (
+        SELECT (fr->> 'appId')::int as appId,  fr->> 'function' as func, fr->> 'function_desc' as func_desc
+        FROM json_array_elements(
+        '{{fr_serialised}}') as fr
+        ) x 
+        LEFT JOIN auth.function f ON f.label = x.func and f.app_id = x.appId 
+        where f.id is null;
+
+        INSERT INTO auth.function_right (app_id, function_id, right_id, creation_timestamp, created_by, active)
+        SELECT f.app_id, f.id, r.id, current_timestamp, '{{author}}', true
+        FROM
+        (
+        SELECT (fr->> 'appId')::int as appId, fr->> 'function' as func, fr->> 'right' as right 
+        FROM json_array_elements(
+        '{{fr_serialised}}') as fr
+        ) x 
+
+        LEFT JOIN auth.function f ON f.label = x.func and f.app_id = x.appId 
+        LEFT JOIN auth.right r ON r.label = x.right and r.app_id = x.appId 
+        LEFT JOIN auth.function_right fr ON r.id = fr.right_id and f.id = fr.function_id
+        where fr.id is null;
+
+
+        INSERT INTO auth.role (app_id, label, description, creation_timestamp, created_by, active)
+        SELECT DISTINCT x.appId, x.role, x.role_desc, current_timestamp, '{{author}}', true
+        FROM
+        (
+        SELECT (fr->> 'appId')::int as appId, fr->> 'role' as role,fr->> 'role_desc' as role_desc, fr->> 'function' as func, fr->> 'right' as right 
+        FROM json_array_elements(
+        '{{roles_serialised}}') as fr
+        ) x 
+
+        LEFT JOIN auth.function f ON f.label = x.func and f.app_id = x.appId 
+        LEFT JOIN auth.right r ON r.label = x.right and r.app_id = x.appId 
+        LEFT JOIN auth.function_right fr ON r.id = fr.right_id and f.id = fr.function_id
+        LEFT JOIN auth.role role on role.app_Id = x.appId and role.label = x.role
+        LEFT JOIN auth.role_function_right rfr ON rfr.role_id = role.id and rfr.function_right_id = fr.id
+        where rfr.id is null;
+
+        INSERT INTO auth.role_function_right (app_id, role_id, function_right_id, creation_timestamp, created_by, active)
+        select role.app_id, role.id, fr.id, current_timestamp, '{{author}}', true
+        FROM
+        (
+        SELECT (fr->> 'appId')::int as appId, fr->> 'role' as role, fr->> 'function' as func, fr->> 'right' as right 
+        FROM json_array_elements(
+        '{{roles_serialised}}') as fr
+        ) x 
+
+        LEFT JOIN auth.function f ON f.label = x.func and f.app_id = x.appId 
+        LEFT JOIN auth.right r ON r.label = x.right and r.app_id = x.appId 
+        LEFT JOIN auth.function_right fr ON r.id = fr.right_id and f.id = fr.function_id
+        LEFT JOIN auth.role role on role.app_Id = x.appId and role.label = x.role
+        LEFT JOIN auth.role_function_right rfr ON rfr.role_id = role.id and rfr.function_right_id = fr.id
+        where rfr.id is null;
+            
+        </sql>
+        <rollback>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

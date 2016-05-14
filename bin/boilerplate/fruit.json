@@ -1,0 +1,7 @@
+{
+  "csharp": {
+    "options": {
+      "namespace": "{{schema_name}}"
+    }
+  }
+}

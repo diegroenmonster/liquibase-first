@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet id="1" author="paul">
+        <sql>
+            INSERT INTO {{schema_name}}.classification (id, name, description)
+            Values 
+            (1,'Bug','Error in code'),
+            (2,'Task', 'Activity which needs to be performed'),
+            (3,'Feature','New code requirements'),
+            (4,'Test','Ensure quality before release'),
+            (5,'Signal','Informing business on progress'),
+            (6,'Analysis','Acquiring knowledge before executing on a set of tasks'),
+            (7,'Goal','Satisfying non-urgent important requirements')
+        </sql>
+        <rollback>
+            <sql>
+                TRUNCATE TABLE {{schema_name}}.classification CASCADE;
+            </sql>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

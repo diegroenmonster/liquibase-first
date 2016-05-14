@@ -1,0 +1,33 @@
+databaseChangeLog:
+            
+    - changeSet:
+        id: 1
+        author: {{author}}
+        changes:
+            - createTable:
+                tableName: category
+                schemaName: {{schema_name}}
+                columns:
+                    - column:
+                        name: id
+                        type: integer
+                        autoIncrement: false
+                        constraints: 
+                            primaryKey: true
+                            nullable: false
+                    - column:
+                        name: name
+                        type: text
+                        constraints:
+                            nullable: false
+                    - column:
+                        name: description
+                        type: text
+                        constraints:
+                            nullable: false
+                  
+        rollback:
+            - dropTable:
+                tableName: category
+                schemaName: {{schema_name}}
+                        
