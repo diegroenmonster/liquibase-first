@@ -43,12 +43,12 @@ var preBuilds = {}
 preBuilds.roles = require('./prebuilds/roles')
 
 module.exports = function build (dir, suffix, language, template) {
-  var fruitConfigFile = path.join(__dirname, 'fruit.json')
+  var fruitConfigFile = path.join(__dirname, 'firstli.json')
   console.log('Loading global config')
   var globalFruit = JSONFILE.readFileSync(fruitConfigFile)
 
   var config = globalFruit
-  var localPath = path.join(dir, 'fruit.json')
+  var localPath = path.join(dir, 'firstli.json')
   console.log('Config path:' + localPath)
   JSONFILE.readFile(localPath, function (error, localFruit) {
     if (!error) {
@@ -333,7 +333,7 @@ function walk (dir, suffix, list) {
   // Checks if we haven't reached a sub project
   if (dir != '.') {
     var fruitJs = items.filter(p => {
-      return p.toLowerCase() == 'fruit.js'
+      return p.toLowerCase() == 'firstli.js'
     }).length > 0
     if (fruitJs) {
       return []
