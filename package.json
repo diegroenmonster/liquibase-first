@@ -1,13 +1,13 @@
 {
-  "name": "fruit",
+  "name": "liquibase-firstli",
   "version": "0.0.1-initial.1",
   "description": "",
-  "main": "bin/fruit.js",
+  "main": "bin/firstli.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "diegroenmonster",
+  "license": "MIT",
   "dependencies": {
     "commander": "^2.9.0",
     "content-disposition": "^0.5.1",
@@ -17,6 +17,6 @@
     "yamljs": "^0.2.6"
   },
   "bin": {
-    "fruit": "bin/fruit.js"
+    "fruit": "bin/firstli.js"
   }
 }
