@@ -1,6 +1,6 @@
 {
   "name": "fruit",
-  "version": "0.0.1",
+  "version": "0.0.1-initial.1",
   "description": "",
   "main": "bin/fruit.js",
   "scripts": {
