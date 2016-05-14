@@ -1,6 +1,6 @@
 {
   "name": "liquibase-firstli",
-  "version": "0.0.1-initial.2",
+  "version": "0.0.1-initial.3",
   "description": "",
   "main": "bin/firstli.js",
   "scripts": {
@@ -17,6 +17,6 @@
     "yamljs": "^0.2.6"
   },
   "bin": {
-    "fruit": "bin/firstli.js"
+    "firstli": "bin/firstli.js"
   }
 }
