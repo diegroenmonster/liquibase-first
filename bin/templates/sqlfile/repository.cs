@@ -10,28 +10,28 @@ namespace {{fmt.nameSpace}}
 {
 	public partial class {{fmt.name}}Repository : ICRUD<{{fmt.name}}>
 	{
-        private ISqlFileExecService SqlFileExecService;
-        public {{fmt.name}}Repository(ISqlFileExecService sqlFileExecService){
-            this.SqlFileExecService = sqlFileExecService;
+        private IQueryService queryService;
+        public {{fmt.name}}Repository(IQueryService queryService){
+            this.queryService = queryService;
         }
 		public int Create({{fmt.name}} item){
-            return SqlFileExecService.single<int>(@"{{path}}\create.db.sql", item);
+            return queryService.Single<int>(@"{{path}}\create.db.sql", item);
         }
         
         public {{fmt.name}} Read(int id){
-            return SqlFileExecService.single<{{fmt.name}}>(@"{{path}}\read.db.sql", new {Id= id});
+            return queryService.Single<{{fmt.name}}>(@"{{path}}\read.db.sql", new {Id= id});
         }
         
         public IEnumerable<{{fmt.name}}> ReadAll(){
-            return SqlFileExecService.query<{{fmt.name}}>(@"{{path}}\read.db.sql", new {Id= (int?)null});
+            return queryService.Query<{{fmt.name}}>(@"{{path}}\read.db.sql", new {Id= (int?)null});
         }
         
         public bool Update({{fmt.name}} item){
-            return SqlFileExecService.single<int>(@"{{path}}\update.db.sql", item) > 0;
+            return queryService.Single<int>(@"{{path}}\update.db.sql", item) > 0;
         }
         
         public bool Delete(int id){
-            return SqlFileExecService.single<int>(@"{{path}}\delete.db.sql", new {Id= id}) > 0;
+            return queryService.Single<int>(@"{{path}}\delete.db.sql", new {Id= id}) > 0;
         }
 	}
 }

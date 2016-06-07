@@ -20,7 +20,7 @@ module.exports = function walk(dir, fileMatch, list) {
     // Checks if we haven't reached a sub project
     if (dir != '.') {
         var fruitJs = items.filter(p => {
-            return p.toLowerCase() == 'fruit.js'; 
+            return p.toLowerCase() == 'changelog.xml'; 
         }).length > 0;
         if (fruitJs){
             return [];
